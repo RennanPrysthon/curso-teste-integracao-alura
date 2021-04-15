@@ -2,6 +2,7 @@ package br.com.alura.leilao.dao;
 
 import br.com.alura.leilao.model.Usuario;
 import br.com.alura.leilao.util.JPAUtil;
+import br.com.alura.leilao.util.UsuarioBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,13 +30,23 @@ public class UsuarioDaoTest {
 
     @Test
     void deveriaEncontrarUsuarioCadastrado() {
-        Usuario usuario =criarUsuario();
+        Usuario usuario =new UsuarioBuilder()
+                .comNome("Fulano")
+                .comEmail("fulano@gmail.com")
+                .comSenha("12345678")
+                .criar();
+        em.persist(usuario);
         Usuario encontrado = this.dao.buscarPorUsername(usuario.getNome());
         assertNotNull(encontrado);
     }
     @Test
     void naoDeveriaEncontrarUsuarioNaoCadastrado() {
-        criarUsuario();
+        Usuario usuario =new UsuarioBuilder()
+                .comNome("Fulano")
+                .comEmail("fulano@gmail.com")
+                .comSenha("12345678")
+                .criar();
+        em.persist(usuario);
         assertThrows(NoResultException.class,
             () -> this.dao.buscarPorUsername("beltrano")
         );
@@ -43,17 +54,16 @@ public class UsuarioDaoTest {
 
     @Test
     void deveriaRemoverUmUsuario() {
-        Usuario usuario = criarUsuario();
+        Usuario usuario = new UsuarioBuilder()
+                .comNome("Fulano")
+                .comEmail("fulano@gmail.com")
+                .comSenha("12345678")
+                .criar();
+        em.persist(usuario);
         dao.deletar(usuario);
 
         assertThrows(NoResultException.class,
             () -> this.dao.buscarPorUsername(usuario.getNome())
         );
-    }
-
-    private Usuario criarUsuario() {
-        Usuario usuario = new Usuario("fulano", "fulano@email.com", "12345678");
-        em.persist(usuario);
-        return usuario;
     }
 }

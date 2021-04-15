@@ -3,6 +3,8 @@ package br.com.alura.leilao.dao;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Usuario;
 import br.com.alura.leilao.util.JPAUtil;
+import br.com.alura.leilao.util.LeilaoBuilder;
+import br.com.alura.leilao.util.UsuarioBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,8 +35,20 @@ public class LeilaoDaoTest {
 
     @Test
     void deveriaCadastrarUmLeilao() {
-        Usuario usuario = criarUsuario();
-        Leilao leilao = new Leilao("Mochila", new BigDecimal("70.00"), LocalDate.now(), usuario);
+        Usuario usuario = new UsuarioBuilder()
+                .comNome("Fulano")
+                .comEmail("fulano@gmail.com")
+                .comSenha("12345678")
+                .criar();
+
+        em.persist(usuario);
+
+        Leilao leilao = new LeilaoBuilder()
+            .comNome("Mochila")
+            .comValorInicial("500.00")
+            .comData(LocalDate.now())
+            .comUsuario(usuario).criar();
+
 
         leilao = dao.salvar(leilao);
 
@@ -44,8 +58,19 @@ public class LeilaoDaoTest {
 
     @Test
     void deveriaAtualizarUmLeilao() {
-        Usuario usuario = criarUsuario();
-        Leilao leilao = new Leilao("Mochila", new BigDecimal("70.00"), LocalDate.now(), usuario);
+        Usuario usuario = new UsuarioBuilder()
+                .comNome("Fulano")
+                .comEmail("fulano@gmail.com")
+                .comSenha("12345678")
+                .criar();
+
+        em.persist(usuario);
+
+        Leilao leilao = new LeilaoBuilder()
+                .comNome("Mochila")
+                .comValorInicial("500.00")
+                .comData(LocalDate.now())
+                .comUsuario(usuario).criar();
 
         leilao = dao.salvar(leilao);
 
