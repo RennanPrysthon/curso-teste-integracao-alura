@@ -4,6 +4,11 @@ import br.com.alura.leilao.login.LoginPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class LeiloesTest {
     private LeiloesPage leiloesPage;
 
@@ -20,6 +25,12 @@ public class LeiloesTest {
 
         CadastroLeilaoPage paginaCadastro = this.leiloesPage.carregarFormulario();
 
+        String hoje = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String nome = "Leilao do dia ".concat(hoje);
+        String valor = "500.00";
 
+        this.leiloesPage = paginaCadastro.cadastrarLeilao(nome, valor, hoje);
+
+        assertTrue(leiloesPage.isLeilaoCadastrado(nome, valor, hoje));
     }
 }
