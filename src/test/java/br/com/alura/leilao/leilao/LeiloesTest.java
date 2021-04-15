@@ -17,6 +17,7 @@ public class LeiloesTest {
     @AfterEach
     public void afterEach() {
         this.leiloesPage.fecharPagina();
+        this.paginaCadastro.fecharPagina();
     }
 
     @BeforeEach
