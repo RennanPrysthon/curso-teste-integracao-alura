@@ -34,12 +34,4 @@ public class LoginPage extends PageObject {
             return null;
         }
     }
-
-    public void navegar(String s) {
-        browser.navigate().to(s);
-    }
-
-    public boolean contemTexto(String s) {
-        return browser.getPageSource().contains(s);
-    }
 }

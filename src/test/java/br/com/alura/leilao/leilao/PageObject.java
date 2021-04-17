@@ -21,5 +21,17 @@ public abstract class PageObject {
     public void fecharPagina() {
         this.browser.quit();
     }
+
+    public String getUrl(){
+        return this.browser.getCurrentUrl();
+    }
+
+    public void navegar(String s) {
+        browser.navigate().to(s);
+    }
+
+    public boolean contemTexto(String s) {
+        return browser.getPageSource().contains(s);
+    }
 }
 
